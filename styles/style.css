@@ -1,0 +1,55 @@
+body {
+    font-family: "Roboto";
+}
+
+body.light {
+    color: initial;
+}
+
+body.dark {
+    background-color: #09122C;
+    color: white;
+}
+
+body.crazy {
+    background-color: #A94A4A;
+    font-family: "Henny Penny";
+}
+
+h1, h2 {
+    font-family: "Rubik";
+}
+
+h1.crazy, h2.crazy {
+    font-family: "Rubik Bubbles";
+}
+
+img {
+    float: left;
+    margin: inherit;
+    margin-left: 0;
+}
+
+.heading-block {
+    padding: 0 1rem 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.heading-block.light {
+    background-color: aqua;
+}
+
+.heading-block.dark {
+    background-color: #BE3144;
+}
+
+.heading-block.crazy {
+    background-color: #F4D793;
+}
+
+#color-theme:hover {
+    cursor: default;
+    color: gray;
+}
