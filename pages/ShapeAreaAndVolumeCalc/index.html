@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Shape Area and Volume Calculator</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="scripts/script.js"></script>
+</head>
+<body>
+    <h1>Shape Area and Volume Calculator</h1>
+    <div class="calculation">
+      <div class="parameters">
+        <h2 id="perimeter">Triangle Perimeter: </h2>
+        <label for="side-a">Side A:</label>
+        <input id="side-a" type="number" step="any">
+        <label for="side-b">Side B:</label>
+        <input id="side-b" type="number" step="any">
+        <label for="side-c">Side C:</label>
+        <input id="side-c" type="number" step="any">
+        <button onclick="calcPerimeter()">Calculate</button>
+      </div>
+      <img src="images/triangle.png" height="220">
+    </div>
+
+    <div class="calculation">
+      <div class="parameters">
+        <h2 id="area">Triangle Area: </h2>
+        <label for="base">Base (b):</label>
+        <input id="base" type="number" step="any">
+        <label for="height-t">Height (h):</label>
+        <input id="height-t" type="number" step="any">
+        <button onclick="calcArea()">Calculate</button>
+      </div>
+      <img src="images/triangle.png" height="220">
+    </div>
+
+    <div class="calculation">
+      <div class="parameters">
+        <h2 id="volume">Pyramid Volume: </h2>
+        <label for="length">Length (l):</label>
+        <input id="length" type="number" step="any">
+        <label for="width">Width (w):</label>
+        <input id="width" type="number" step="any">
+        <label for="height-p">Height (h):</label>
+        <input id="height-p" type="number" step="any">
+        <button onclick="calcVolume()">Calculate</button>
+      </div>
+      <img src="images/pyramid.png">
+    </div>
+</body>
+</html>

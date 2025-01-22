@@ -1,0 +1,9 @@
+.calculation {
+    display: flex;
+    align-items: center;
+}
+
+.parameters {
+    display: flex;
+    flex-direction: column;
+}
