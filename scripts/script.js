@@ -6,6 +6,11 @@ const themes = [
 
 let currentThemeNum = 0;
 
+let foo = false;
+console.log(typeof foo);
+foo = 0;
+console.log(typeof foo);
+
 function changeTheme() {
   const currentTheme = themes[currentThemeNum];
   const nextThemeNum = (currentThemeNum + 1) % 3;
