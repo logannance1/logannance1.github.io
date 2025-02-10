@@ -1,0 +1,142 @@
+
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+  <meta charset="UTF-8"> 
+  <title>Memory Match</title> 
+  <style> 
+      .tile { 
+        font-size: xx-large; 
+        width: 50px; 
+        height: 50px; 
+        line-height: 50px; 
+        background-color: gray; 
+        text-align: center;              
+      } 
+      
+      td { 
+        width: 55px; 
+        height: 55px; 
+      } 
+  </style> 
+</head> 
+<body>
+  <h1>Welcome to Memory Match</h1> 
+  <p><button onclick='gameReset()'>Reset Game</button></p> 
+  <div id='gameBoard'></div> 
+  <script> 
+    const defaultRows = 4;
+    const defaultCols = 4;
+    let map = []; 
+    let tile1 = null, tile2 = null;
+
+    // TODO: Write the project code
+    const loadMap = (rows = defaultRows, cols = defaultCols) => {
+      const max = rows * cols / 2;
+      let arr = [];
+
+      for (let i = 0; i < max; ++i) {
+        arr.push(i + 1);
+        arr.push(i + 1);
+      }
+
+      arr = shuffle(arr);
+      console.log(arr);
+
+      for (let i = 0; i < rows; ++i) {
+        map[i] = [];
+
+        for (let j = 0; j < cols; ++j) {
+          map[i][j] = arr[i * cols + j];
+        }
+      }
+
+      console.log(map);
+    }
+
+    const shuffle = (array) => { 
+      for (let i = array.length - 1; i > 0; i--) { 
+        const j = Math.floor(Math.random() * (i + 1));
+        let temp = array[i]; 
+        array[i] = array[j]; 
+        array[j] = temp; 
+      }
+
+      return array;
+    }
+
+    const makeBoard = (rows = defaultRows, cols = defaultCols) => {
+      let output = '<table>';
+
+      for (let row = 0; row < rows; row++) { 
+        output += '<tr>';
+
+        for (let col = 0; col < cols; col++) { 
+          output += '<td><button' +                     
+          ' class="tile"' +  
+          ' id="' + row + '_' + col + '"' +  
+          ' onclick="process(' + row + ',' + col + ')">' + 
+          '</button></td>'; 
+        }
+
+        output += '</tr>'; 
+      }
+
+      document.getElementById('gameBoard').innerHTML = output + '</table>'; 
+    }
+
+    const promptRowsCols = () => {
+      let rows = parseInt(prompt('Enter the amount of rows:'));
+      let cols = parseInt(prompt('Enter the amount of columns:'));
+
+      if (rows * cols % 2 !== 0 || rows * cols <= 0) {
+        alert('Rows and columns should be integers\n' +
+          `and their product should be an even number.\n` +
+          `Using default rows: ${defaultRows}, columns: ${defaultCols}.`);
+
+        rows = defaultRows;
+        cols = defaultCols;
+      }
+
+      return { rows, cols };
+    }
+
+    const gameReset = () => {
+      map = [];
+      const { rows, cols } = promptRowsCols();
+      loadMap(rows, cols);
+      makeBoard(rows, cols);
+    }
+
+    const process = (row = 0, col = 0) => {
+      let clicked_tile = document.getElementById(row + '_' + col); 
+                
+      // Clicked tile not already contains data 
+      if (!Boolean(clicked_tile.innerHTML)) {           
+        // Tile 1 not yet selected 
+        if (!tile1) { 
+            tile1 = clicked_tile; 
+            clicked_tile.innerHTML = map[row][col]; 
+        } // Tile 2 not yet selected 
+        else if (!tile2) { 
+            tile2 = clicked_tile; 
+            clicked_tile.innerHTML = map[row][col]; 
+            // TODO: Set timeout callback function
+            setTimeout(checkMatch, 1000);
+        }
+      } 
+    }
+
+    const checkMatch = () => {
+      if (tile1.innerHTML == tile2.innerHTML) { 
+          tile1.hidden = true; 
+          tile2.hidden = true; 
+      } 
+      
+      tile1.innerHTML = ''; 
+      tile2.innerHTML = ''; 
+      tile1 = tile2 = null; 
+    }
+  </script> 
+</body>
+</html>
