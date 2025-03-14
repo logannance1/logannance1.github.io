@@ -1,0 +1,118 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <title>DOM Puzzle</title> 
+        <style> 
+            /* NOTE: Do NOT modify this stylesheet */ 
+            #puzzle { 
+                width: 500px; 
+                height: 500px; 
+                border: 5px solid black; 
+            } 
+        </style> 
+    </head> 
+    <body> 
+        <!-- NOTE: Do NOT modify the body or div --> 
+        <div id='puzzle'></div> 
+ 
+        <script> 
+            // All puzzle code must be implemented here
+            const body = document.getElementsByTagName('body')[0];
+            setUpTitle(body);
+            setUpPuzzle();
+            setUpDescription(body);
+
+            function setUpDescription(body) {
+              const desc = document.createElement('span');
+              desc.innerText = 'This is a puzzle created entirely with ' +
+                'JavaScript.';
+
+              body.appendChild(desc); 
+            }
+
+            function setUpTitle(body) {
+              const heading = document.createElement('h1');
+              heading.innerText = "DOM Puzzle";
+              body.prepend(heading);
+            }
+
+            function setUpPuzzle() {
+              const puzzle = document.getElementById('puzzle');
+              puzzle.style.backgroundColor = '#7338A0';
+
+              puzzle.addEventListener('mouseover', () => {
+                puzzle.style.borderColor = 'gray';
+              });
+
+              puzzle.addEventListener('mouseout', () => {
+                puzzle.style.borderColor = 'black';
+              });
+              
+              setUpABCD(puzzle);
+              setUpTinyButtons(puzzle);
+            }
+
+
+            function setUpABCD(puzzle) {
+              const abcdContainer = document.createElement('div');
+
+              abcdContainer.style = `
+                width: 250px;
+                height: 250px;
+              `;
+
+              puzzle.appendChild(abcdContainer);
+
+              ['#9455f4', '#4A2B74', '#594492', '#854ddc'].forEach((clr, i) => {
+                const btn = document.createElement('button');
+
+                btn.style = `
+                  width: 125px;
+                  height: 125px;
+                  background-color: ${clr};
+                  color: white;
+                `;
+                
+                btn.innerText = String.fromCharCode('A'.charCodeAt(0) + i);
+                abcdContainer.appendChild(btn);
+              });
+            }
+
+            function setUpTinyButtons(puzzle) {
+              const container = document.createElement('div');
+
+              container.style = `
+                margin-left: auto;
+                width: 250px;
+                height: 250px;
+              `;
+
+              for (let i = 0; i < 100; ++i) {
+                const btn = document.createElement('button');
+                container.appendChild(btn);
+                
+                btn.style = `
+                  width: 25px;
+                  height: 24px;
+                  background-color: #c39cfe;
+                `;
+                
+                btn.addEventListener('click', () => {
+                  btn.style.backgroundColor = '#4A2574';
+
+                  [btn.previousElementSibling, btn.nextElementSibling]
+                    .forEach(btn => {
+                      if (btn !== null) {
+                        btn.style.backgroundColor = '#FF9E00';
+                      }
+                    }
+                  );
+                })
+              }
+
+              puzzle.appendChild(container);
+            }
+            
+        </script> 
+    </body> 
+</html> 
