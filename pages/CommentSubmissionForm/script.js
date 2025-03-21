@@ -58,6 +58,7 @@ function handlePasswordInput(event) {
 function sanitize(str) {
   return str.replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
+    .replace(/&/g, '&amp;')
     .replace(/"/, '&quot;')
     .replace(/'/, '&apos;');
 }
