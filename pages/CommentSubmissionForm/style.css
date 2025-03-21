@@ -1,0 +1,18 @@
+form {
+    width: 24rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    > * {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+label {
+    span {
+        color: #444;
+        font-size: 0.8rem;
+    }
+}
