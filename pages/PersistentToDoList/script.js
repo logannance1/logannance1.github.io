@@ -49,7 +49,23 @@ window.addEventListener('load', () => {
   }
 
   document.getElementById('theme').textContent = theme;
+  loadQuote();
 });
+
+async function loadQuote() {
+  try {
+    let resp = await fetch('https://quoteslate.vercel.app/api/quotes/random');
+
+    if (!resp.ok) {
+      throw new Error();
+    }
+
+    const data = await resp.json();
+    document.getElementById('quote').textContent = `"${data.quote}" - ${data.author}`;
+  } catch (err) {
+    document.getElementById('quote').textContent = 'Unable to load quote at this time';
+  }
+}
 
 function loadTheme() {
   const cookies = document.cookie.split('; ');
@@ -100,6 +116,6 @@ function handleTheme() {
 
   let date = new Date();
   date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
-  document.cookie = `theme=${theme}; expires=${date.toUTCString()} path=/`;
+  document.cookie = `theme=${theme}; expires=${date.toUTCString()}; path=/`;
   location.reload();
 }

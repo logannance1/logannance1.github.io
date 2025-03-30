@@ -20,9 +20,9 @@ h1, h2 {
     font-family: "Rubik";
 }
 
-h1.crazy, h2.crazy {
+/* h1.crazy, h2.crazy {
     font-family: "Rubik Bubbles";
-}
+} */
 
 img {
     float: left;
