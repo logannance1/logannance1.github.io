@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Persistent To-Do List</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+</head>
+<body>
+  <button onclick="handleTheme()">
+    Theme:
+    <span id="theme"></span>
+  </button>
+  <h1>Tasks</h1>
+  <h2>
+    Added this session:
+    <span id="taskCounter"></span>
+  </h2>
+  <ul id="tasksList">
+  </ul>
+  <form onsubmit="handleAddTask(event)">
+    <input id="addTask" type="text">
+    <button>Add Task</button>
+  </form>
+</body>
+</html>
