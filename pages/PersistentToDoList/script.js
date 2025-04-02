@@ -1,120 +1,121 @@
-const themes = ['light', 'dark', 'crazy'];
-let currentTheme;
-
 window.addEventListener('load', () => {
-  const tasks = loadTasks();
-  tasks.forEach(t => createTaskItem(t));
-  updateTaskCounterHTML(loadSessionTaskCounter());
-  let theme = loadCookie('theme');
+  const tasks = JSON.parse(localStorage.getItem('tasks'));
 
-  if (!theme) {
-    theme = 'light';
+  if (tasks) {
+    tasks.forEach((t, i) => {
+      const span = document.createElement('span');
+      span.textContent = t;
+      const button = document.createElement('button');
+      button.textContent = 'Remove';
+
+      button.addEventListener('click', () => {
+        tasks.splice(i, 1); 
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        location.reload();
+      });
+
+      const li = document.createElement('li');
+      li.appendChild(span);
+      li.appendChild(button);
+      document.getElementById('tasksList').appendChild(li);
+    });
   }
 
-  updateTheme(theme);
-});
+  let taskCounter = JSON.parse(sessionStorage.getItem('taskCounter'));
 
-function handleThemeClick() {
-  currentTheme = (currentTheme + 1) % themes.length;
-  const date = new Date();
-  date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
-  document.cookie = `theme=${themes[currentTheme]}; expires=${date.toUTCString()}; path=/`;
-  updateTheme(themes[currentTheme]);
-}
+  if (!taskCounter) {
+    taskCounter = 0;
+  }
 
-function updateTheme(theme) {
+  document.getElementById('taskCounter').textContent = taskCounter;
+  const theme = loadTheme();
   const style = document.body.style;
 
   switch (theme) {
     case 'dark':
       style.backgroundColor = '#09122C';
       style.color = 'white';
-      currentTheme = 1
+      style.fontFamily = 'initial';
       break;
     case 'crazy':
       style.backgroundColor = '#A94A4A';
-      style.color = 'black';
-      currentTheme = 2
+      style.color = 'initial';
+      style.fontFamily = 'Henny Penny';
       break;
     default:
-      style.backgroundColor = 'white';
-      style.color = 'black';
-      currentTheme = 0
+      style.backgroundColor = 'initial';
+      style.color = 'initial';
+      style.fontFamily = 'initial';
   }
 
-  document.getElementById('currentTheme').textContent = theme;
+  document.getElementById('theme').textContent = theme;
+  loadQuote();
+});
+
+async function loadQuote() {
+  try {
+    let resp = await fetch('https://quoteslate.vercel.app/api/quotes/random');
+
+    if (!resp.ok) {
+      throw new Error();
+    }
+
+    const data = await resp.json();
+    document.getElementById('quote').textContent = `"${data.quote}" - ${data.author}`;
+  } catch (err) {
+    document.getElementById('quote').textContent = 'Unable to load quote at this time';
+  }
 }
 
-function loadCookie(name) {
+function loadTheme() {
   const cookies = document.cookie.split('; ');
-
+  
   for (let cookie of cookies) {
     const crumbs = cookie.split('=');
-    if (crumbs[0] === name) return crumbs[1];
+    if (crumbs[0] === 'theme') return crumbs[1];
   }
 
-  return null;
-}
-
-function createTaskItem(text) {
-  const item = document.createElement('li');
-
-  const span = document.createElement('span');
-  span.textContent = text;
-  const removeBtn = document.createElement('button');
-  removeBtn.textContent = 'Remove';
-
-  removeBtn.addEventListener('click', () => {
-    const tasks = loadTasks();
-    tasks.splice(tasks.indexOf(text), 1);
-    updateTasks(tasks);
-    item.remove();
-  });
-
-  item.appendChild(span);
-  item.appendChild(removeBtn);
-  document.getElementById('tasks').appendChild(item);
-}
-
-function loadTasks() {
-  const tasks = JSON.parse(localStorage.getItem('tasks'));
-
-  if (!tasks) {
-    console.log('No tasks loaded');
-    return [];
-  }
-
-  return tasks;
-}
-
-function updateTasks(tasks) {
-  localStorage.setItem('tasks', JSON.stringify(tasks));
-  console.log(tasks);
-}
-
-function loadSessionTaskCounter() {
-  const taskCounter = JSON.parse(sessionStorage.getItem('taskCounter'));
-  if (!taskCounter) return 0;
-  return taskCounter;
-}
-
-function updateTaskCounterHTML(taskCounter) {
-  document.getElementById('taskCounter').textContent = taskCounter;
-}
-
-function incrementSessionTaskCounter() {
-  const taskCounter = loadSessionTaskCounter() + 1;
-  sessionStorage.setItem('taskCounter', JSON.stringify(taskCounter));
-  updateTaskCounterHTML(taskCounter);
+  return 'light';
 }
 
 function handleAddTask(event) {
   event.preventDefault();
-  const task = document.getElementById('addTask').value;
-  document.getElementById('addTask').value = '';
-  const tasks = loadTasks();
-  createTaskItem(task, tasks, tasks.length);
-  tasks.push(task);
-  updateTasks(tasks);
-  incrementSessionTaskCounter();
+  const value = document.getElementById('addTask').value;
+  let tasks = JSON.parse(localStorage.getItem('tasks'));
+  
+  if (!tasks) {
+    tasks = [];
+  }
+  
+  tasks.push(value);
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  let taskCounter = JSON.parse(sessionStorage.getItem('taskCounter'));
+
+  if (!taskCounter) {
+    taskCounter = 0;
+  }
+
+  ++taskCounter;
+  sessionStorage.setItem('taskCounter', JSON.stringify(taskCounter));
+  location.reload();
+}
+
+function handleTheme() {
+  let theme = loadTheme();
+
+  switch (theme) {
+    case 'dark':
+      theme = 'crazy';
+      break;
+    case 'crazy':
+      theme = 'light';
+      break;
+    default:
+      theme = 'dark';
+  }
+
+  let date = new Date();
+  date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
+  document.cookie = `theme=${theme}; expires=${date.toUTCString()}; path=/`;
+  location.reload();
 }
