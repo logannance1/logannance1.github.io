@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Persistent To-Do List with APIs</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+</head>
+<body>
+  <button onclick="handleThemeClick()">
+    Theme:
+    <span id="currentTheme"></span>
+  </button>
+  <h3>Tasks</h3>
+  <h4>
+    Added this session:
+    <span id="taskCounter"></span>
+  </h4>
+  <ul id="tasks">
+  </ul>
+  <form onsubmit="handleAddTask(event)">
+    <ul>
+      <li>
+        <input id='addTask' type="text" placeholder="Enter a new task" />
+        <button>Add Task</button>
+      </li>
+    </ul>
+  </form>
+</body>
+</html>
