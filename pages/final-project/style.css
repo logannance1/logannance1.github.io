@@ -1,0 +1,20 @@
+@font-face {
+    font-family: "RobotoMono";
+    src: url("Roboto_Mono/RobotoMono-VariableFont_wght.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'RobotoMono';
+}
+
+#letters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+#hangman {
+    white-space: pre;
+}
